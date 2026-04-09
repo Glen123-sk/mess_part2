@@ -19,7 +19,7 @@ jobs:
       run: wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.9.3/junit-platform-console-standalone-1.9.3.jar
 
     - name: Compile Java files
-      run: javac Messenger2.java Messenger2Test.java
+      run: javac src/Messenger2.java src/Messenger2Test.java
 
     - name: Run JUnit tests
       run: java -jar junit-platform-console-standalone-1.9.3.jar --class-path . --scan-class-path
