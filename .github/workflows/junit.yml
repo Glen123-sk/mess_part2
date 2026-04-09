@@ -1,0 +1,31 @@
+name: Java CI with JUnit
+
+on:
+  push:
+    branches: [ "testing-auto" ]
+  pull_request:
+    branches: [ "testing-auto" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: Download JUnit Console Standalone
+      run: wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
+
+    - name: Compile with javac
+      run: |
+        javac -d target/classes -cp junit-platform-console-standalone-1.10.2.jar src/main/java/messenger/Messenger.java src/test/java/messenger/MessengerTest.java
+    - name: Run JUnit tests
+      run: |
+        java -jar junit-platform-console-standalone-1.10.2.jar --class-path target/classes --scan-class-path
