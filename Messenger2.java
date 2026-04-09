@@ -59,10 +59,19 @@ public class Messenger2 {
 
         // Create message hash
         public String createMessageHash() {
-            String[] words = messageContent.split("\\s+");
-            String firstWord = words[0].replaceAll("[^A-Za-z0-9]", "").toUpperCase();
-            String lastWord = words[words.length - 1].replaceAll("[^A-Za-z0-9]", "").toUpperCase();
-            return messageID.substring(0, 2) + ":" + numSentMessages + ":" + firstWord + lastWord;
+            // Remove non-alphanumeric, split into words
+            String[] words = messageContent.replaceAll("[^A-Za-z0-9 ]", "").toUpperCase().split("\\s+");
+            String hash;
+            if (words.length == 1) {
+                // If only one word, repeat it
+                hash = words[0] + words[0];
+            } else if (words.length > 1) {
+                // If more than one word, concatenate first and last
+                hash = words[0] + words[words.length - 1];
+            } else {
+                hash = "";
+            }
+            return messageID.substring(0, 2) + ":" + numSentMessages + ":" + hash;
         }
 
         // Send / Store / Discard
@@ -141,16 +150,26 @@ public class Messenger2 {
                     int numMessages = Integer.parseInt(scanner.nextLine());
 
                     for (int i = 0; i < numMessages; i++) {
-                        System.out.print("Enter recipient number: ");
-                        String recipient = scanner.nextLine();
+                        String recipient;
+                        while (true) {
+                            System.out.print("Enter recipient number: ");
+                            recipient = scanner.nextLine();
+                            // Temporary message for validation
+                            Message tempMsg = new Message(recipient, "", totalMessages);
+                            String recipientResult = tempMsg.checkRecipientCell();
+                            if (recipientResult.equals("Cell phone number successfully captured.")) {
+                                System.out.println(recipientResult);
+                                break;
+                            } else {
+                                System.out.println(recipientResult);
+                                // Loop again for new input
+                            }
+                        }
 
                         System.out.print("Enter message: ");
                         String content = scanner.nextLine();
 
                         Message msg = new Message(recipient, content, totalMessages);
-
-                        // Validate recipient
-                        System.out.println(msg.checkRecipientCell());
 
                         // Validate message length
                         System.out.println(msg.checkMessageLength());
