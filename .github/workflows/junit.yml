@@ -25,7 +25,7 @@ jobs:
 
     - name: Compile with javac
       run: |
-        javac -d target/classes -cp junit-platform-console-standalone-1.10.2.jar src/main/java/messenger/Messenger.java src/test/java/messenger/MessengerTest.java
+        javac -d target/classes -cp junit-platform-console-standalone-1.10.2.jar src/main/java/Messenger2.java src/test/java/Messenger2Test.java
     - name: Run JUnit tests
       run: |
         java -jar junit-platform-console-standalone-1.10.2.jar --class-path target/classes --scan-class-path
