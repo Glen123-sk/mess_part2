@@ -2,9 +2,9 @@ name: Java CI with JUnit
 
 on:
   push:
-    branches: [ "testing-auto" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "testing-auto" ]
+    branches: [ "main" ]
 
 jobs:
   build:
